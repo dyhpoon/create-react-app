@@ -19,7 +19,7 @@ function print_help {
 cd $(dirname $0)
 
 node_version=6
-current_git_branch=`git rev-parse --abbrev-ref HEAD`
+current_git_branch=`git rev-parse --abbrev-ref HEAD` # this will get the branch name
 git_branch=${current_git_branch}
 test_suite=all
 interactive=false
@@ -31,6 +31,9 @@ while [ "$1" != "" ]; do
       node_version=$1
       ;;
     "--git-branch")
+      # this will re-position the argument.
+      # For instance, "./local-test.sh --git-branch master"
+      # will shift from "--git-branch" to "master", and $1 becomes "master"
       shift
       git_branch=$1
       ;;
