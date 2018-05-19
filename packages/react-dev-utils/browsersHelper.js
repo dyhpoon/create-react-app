@@ -27,9 +27,10 @@ function checkBrowsers(dir, retry = true) {
   }
 
   if (!retry) {
+    // reject an error
     return Promise.reject(
       new Error(
-        chalk.red(
+          chalk.red(
           'As of react-scripts >=2 you must specify targeted browsers.'
         ) +
           os.EOL +
@@ -37,7 +38,7 @@ function checkBrowsers(dir, retry = true) {
             'browserslist'
           )} key to your ${chalk.bold('package.json')}.`
       )
-    );
+      );
   }
 
   const question = {
@@ -50,16 +51,22 @@ function checkBrowsers(dir, retry = true) {
       )}?`,
     default: true,
   };
+  // ask whether or not do set browserlist in package.json
   return inquirer.prompt(question).then(answer => {
     if (answer.shouldSetBrowsers) {
       return (
         pkgUp(dir)
           .then(filePath => {
+            // if no package.json is found, reject
             if (filePath == null) {
-              return Promise.reject();
+              return Promise.reject(); // no error? just throw an empty?
             }
+
+            // read package.json
             const pkg = JSON.parse(fs.readFileSync(filePath));
+            // set browserlist to pkg
             pkg['browserslist'] = defaultBrowsers;
+            // write pkg back to package.json
             fs.writeFileSync(filePath, JSON.stringify(pkg, null, 2) + os.EOL);
 
             browserslist.clearCaches();
