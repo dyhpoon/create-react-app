@@ -72,6 +72,10 @@ case ${test_suite} in
     ;;
 esac
 
+# this will read the CMD block
+# and put it to an variable "$apply_changes"
+# -r: Do not let backslash (\) act as an escape character
+# -d: Use a specific character as a delimiter instead of a new line
 read -r -d '' apply_changes <<- CMD
 cd /var/create-react-app
 git config --global user.name "Create React App"
