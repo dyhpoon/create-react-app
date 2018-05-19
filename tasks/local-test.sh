@@ -108,6 +108,9 @@ set +x
 ${test_command} && echo -e "\n\e[1;32m✔ Job passed\e[0m" || echo -e "\n\e[1;31m✘ Job failed\e[0m"
 $([[ ${interactive} == 'true' ]] && echo 'bash')
 CMD
+# run command, if success show "Job passed", else show "Job failed"
+# echo -e: Enable interpretation of backslash escapes (special characters)
+# ${test_command} && echo -e "\n\e[1;32m✔ Job passed\e[0m" || echo -e "\n\e[1;31m✘ Job failed\e[0m"
 
 docker run \
   --env CI=true \
